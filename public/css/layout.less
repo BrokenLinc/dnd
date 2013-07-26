@@ -1,0 +1,82 @@
+@import "bootstrap/bootstrap";
+@import "bootstrap/responsive";
+
+@border-width: 3px;
+@border-roundness: 5px;
+@icon-size: 60px;
+
+.skill {
+	width:@icon-size;
+	height:@icon-size;
+	margin:10px;
+	border:@border-width solid #666;
+	.border-radius(@border-roundness);
+	cursor:pointer;
+	position:relative;
+
+	&.can-add-points {
+		border-color:green;
+	}
+	&.has-points {
+		border-color:blue;
+	}
+
+	.skill-points {
+		position:absolute;
+		z-index:1;
+		bottom: @border-width * -2;
+		right: @border-width * -2;
+		background:rgba(0,0,0,0.8);
+		color:white;
+		.border-radius(@border-roundness);
+		padding: 0 4px;
+
+		span.points {}
+		span.max-points {}
+	}
+	.tool-tip {
+		display:none;
+		.border-radius(@border-roundness);
+		border:@border-width solid #666;
+		background:#eee;
+		position:absolute;
+		z-index:2;
+		top:0 - @border-width;
+		left:@icon-size + @border-width;
+		width:150px;
+		padding:10px;
+
+		.skill-name {}
+		.skill-description {}
+		ul.skill-links {
+			li {
+				a {}
+			}
+		}
+		.help-message {}
+	}
+	&:hover .tool-tip {
+		display:block;
+	}
+	.skill-dependency {
+		position: absolute;
+		width:10px;
+		height:10px;
+		background:#666;
+		top:-13px;
+		left:50%;
+		margin-left:-5px;
+
+		&.active {
+			background:green;
+		}
+	}
+
+	//Skill-specific styles
+	&[data-skill-id="1"] {
+		background:orange;
+	}
+	&[data-skill-id="2"] {
+		background:purple;
+	}
+}

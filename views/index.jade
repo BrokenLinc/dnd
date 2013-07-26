@@ -1,0 +1,25 @@
+extends layout
+
+block append scripts
+	script(src="js/talent-tree.js")
+
+block content
+	//ko foreach: skills
+	.skill(data-bind="css:{'can-add-points': canAddPoints, 'has-points': hasPoints}, attr:{'data-skill-id': id}, click:addPoint")
+		.skill-points
+			span.points(data-bind="text:points")
+			| /
+			span.max-points(data-bind="text:maxPoints")
+		.tool-tip
+			strong.skill-name(data-bind="text:title")
+			.skill-description(data-bind="text:description")
+			ul.skill-links
+				//ko foreach: links
+				li
+					a(data-bind="attr:{href:url}, text:label")
+				///ko
+			.help-message(data-bind="text:helpMessage")
+		//ko if: hasDependencies
+		.skill-dependency(data-bind="css:{active:dependenciesFulfilled}")
+		///ko
+	///ko

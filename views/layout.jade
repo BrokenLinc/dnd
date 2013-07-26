@@ -1,0 +1,29 @@
+!!!
+html
+	head
+		block head
+			block title
+				title #{title} - Project Name
+			block meta
+				meta(name='description', content='')
+				meta(name='keywords', content='')
+			| <style>
+			| body { padding-top: 60px; }
+			| </style>
+			link(href="css/layout.css", rel="stylesheet")
+			link(href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css", rel="stylesheet")
+			script(src='//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js')
+			script(src='//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js')
+	body
+		include header
+
+		.container
+			-if(backLink){
+				p
+					a(href=backLink.href) &laquo; #{backLink.label}
+			-}
+			h1.page-title= title
+			block content
+
+		block scripts
+			script(src='/js/layout.js')
