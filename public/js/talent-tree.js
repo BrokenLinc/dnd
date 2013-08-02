@@ -12,8 +12,6 @@ function namespace(namespaceString) {
     return parent;
 }
 
-
-
 (function($, ko){
 
 	(function(ns) {
@@ -118,11 +116,34 @@ function namespace(namespaceString) {
 				{
 					id: 1
 					, title: 'Thingie 1'
+					, links:[
+						{
+							label: 'Learn more'
+							, url: 'http://www.google.com/i'
+						}
+					]
 				},
 				{
 					id: 2
 					, title: 'Thingie 2'
 					, dependsOn: [1]
+					, maxPoints: 3
+				},
+				{
+					id: 3
+					, title: 'Thingie 3'
+					, dependsOn: [2]
+				},
+				{
+					id: 4
+					, title: 'Thingie 4'
+					, dependsOn: [2]
+					, maxPoints: 5
+				},
+				{
+					id: 5
+					, title: 'Thingie 5'
+					, dependsOn: [3, 4]
 				}
 			]
 		});

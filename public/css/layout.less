@@ -1,50 +1,102 @@
 @import "bootstrap/bootstrap";
 @import "bootstrap/responsive";
 
-@border-width: 3px;
-@border-roundness: 5px;
+@border-roundness: 8px;
+@icon-padding: 5px;
 @icon-size: 60px;
+@frame-size: @icon-size + @icon-padding * 4;
+@shadow: 0 6px 11px black;
 
+body {
+	background:#333 url(../img/bg-stone.jpg) top center;
+}
+
+
+.talent-tree {
+    -webkit-user-select: none;
+}
 .skill {
-	width:@icon-size;
-	height:@icon-size;
-	margin:10px;
-	border:@border-width solid #666;
-	.border-radius(@border-roundness);
-	cursor:pointer;
-	position:relative;
+	width:@frame-size;
+	height:@frame-size;
+	position:absolute;
+
+	.icon-container {
+		position:absolute;
+		background:black;
+		width:@icon-size;
+		height:@icon-size;
+		padding:@icon-padding;
+		top:@icon-padding;
+		left:@icon-padding;
+		border-radius:@border-roundness;
+		box-shadow: @shadow;
+	}
+	.icon {
+		width:100%;
+		height:100%;
+		background:url(../img/icon-sprite.jpg) no-repeat top left;
+		opacity:0.5;
+		-webkit-transition: opacity 0.3s;
+	}
+	.frame {
+		position:absolute;
+		width:100%;
+		height:100%;
+		background:url(../img/sprite.png) no-repeat top left;
+		cursor:pointer;
+
+		&:hover .tool-tip {
+			visibility: visible;
+			opacity:1;
+			-webkit-transition: all 0.3s 0.3s;
+		}
+	}
 
 	&.can-add-points {
-		border-color:green;
+		.icon {
+			opacity:1;
+		}
+		.frame {
+			background-position: -@frame-size top;
+		}
 	}
 	&.has-points {
-		border-color:blue;
+	}
+	&.has-max-points {
+		.icon {
+			opacity:1;
+		}
+		.frame {
+			background-position: -@frame-size * 2 top;
+		}
 	}
 
 	.skill-points {
 		position:absolute;
 		z-index:1;
-		bottom: @border-width * -2;
-		right: @border-width * -2;
-		background:rgba(0,0,0,0.8);
+		bottom: 2px;
+		right: 5px;
 		color:white;
-		.border-radius(@border-roundness);
-		padding: 0 4px;
+		font-size:11px;
+		width:19px;
+		text-align:center;
 
 		span.points {}
 		span.max-points {}
 	}
 	.tool-tip {
-		display:none;
+		visibility: hidden;
+		opacity:0;
 		.border-radius(@border-roundness);
-		border:@border-width solid #666;
-		background:#eee;
+		background:#000;
+		color:white;
 		position:absolute;
 		z-index:2;
-		top:0 - @border-width;
-		left:@icon-size + @border-width;
-		width:150px;
+		top:@icon-padding;
+		left:@frame-size;
+		width:200px;
 		padding:10px;
+		box-shadow: @shadow;
 
 		.skill-name {}
 		.skill-description {}
@@ -55,28 +107,63 @@
 		}
 		.help-message {}
 	}
-	&:hover .tool-tip {
-		display:block;
-	}
 	.skill-dependency {
 		position: absolute;
-		width:10px;
-		height:10px;
-		background:#666;
-		top:-13px;
+		display:block;
+		bottom:63px;
 		left:50%;
-		margin-left:-5px;
+
+		background:url(../img/connection-sprite.png) no-repeat top left;
 
 		&.active {
-			background:green;
 		}
 	}
 
 	//Skill-specific styles
 	&[data-skill-id="1"] {
-		background:orange;
+		z-index:1000;
+		top:120px;
+		left:160px;
 	}
 	&[data-skill-id="2"] {
-		background:purple;
+		z-index:950;
+		top:260px;
+		left:160px;
+
+		.skill-dependency {
+			margin-left:-15px;
+			width:30px;
+			height:80px;
+			background-position:-206px -140px;
+		}
+	}
+	&[data-skill-id="3"] {
+		z-index:850;
+		top:380px;
+		left:120px;
+
+		.skill-dependency {
+			margin-left:-15px;
+			width:110px;
+			height:60px;
+			background-position:-84px -10px;
+		}
+	}
+	&[data-skill-id="4"] {
+		z-index:800;
+		top:380px;
+		left:200px;
+	}
+	&[data-skill-id="5"] {
+		z-index:700;
+		top:500px;
+		left:160px;
+
+		.skill-dependency {
+			margin-left:-55px;
+			width:110px;
+			height:60px;
+			background-position:-84px -200px;
+		}
 	}
 }
