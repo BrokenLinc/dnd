@@ -8,6 +8,7 @@
 @shadow: 0 6px 11px black;
 
 body {
+	color:white;
 	background:#333 url(../img/bg-stone.jpg) top center;
 }
 
@@ -43,13 +44,18 @@ body {
 		width:100%;
 		height:100%;
 		background:url(../img/sprite.png) no-repeat top left;
-		cursor:pointer;
 
 		&:hover .tool-tip {
 			visibility: visible;
 			opacity:1;
 			-webkit-transition: all 0.3s 0.3s;
 		}
+	}
+	.hit-area {
+		position:absolute;
+		width:100%;
+		height:100%;
+		cursor:pointer;
 	}
 
 	&.can-add-points {
@@ -58,6 +64,9 @@ body {
 		}
 		.frame {
 			background-position: -@frame-size top;
+		}
+		.skill-dependency {
+			opacity:1;
 		}
 	}
 	&.has-points {
@@ -68,6 +77,9 @@ body {
 		}
 		.frame {
 			background-position: -@frame-size * 2 top;
+		}
+		.skill-dependency {
+			opacity:1;
 		}
 	}
 
@@ -94,7 +106,7 @@ body {
 		z-index:2;
 		top:@icon-padding;
 		left:@frame-size;
-		width:200px;
+		width:300px;
 		padding:10px;
 		box-shadow: @shadow;
 
@@ -105,13 +117,16 @@ body {
 				a {}
 			}
 		}
-		.help-message {}
+		.help-message {
+			color:red;
+		}
 	}
 	.skill-dependency {
 		position: absolute;
 		display:block;
 		bottom:63px;
 		left:50%;
+		opacity:0.35;
 
 		background:url(../img/connection-sprite.png) no-repeat top left;
 

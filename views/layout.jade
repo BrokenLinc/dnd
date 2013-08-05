@@ -3,7 +3,7 @@ html
 	head
 		block head
 			block title
-				title #{title} - Project Name
+				title #{title} - Dungeons & Developers
 			block meta
 				meta(name='description', content='')
 				meta(name='keywords', content='')
@@ -17,13 +17,14 @@ html
 	body
 		include header
 
-		.container
-			-if(backLink){
-				p
-					a(href=backLink.href) &laquo; #{backLink.label}
-			-}
-			h1.page-title= title
-			block content
+		block page
+			.container
+				-if(backLink){
+					p
+						a(href=backLink.href) &laquo; #{backLink.label}
+				-}
+				h1.page-title= title
+				block content
 
 		block scripts
 			script(src='/js/layout.js')

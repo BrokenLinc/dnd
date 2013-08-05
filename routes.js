@@ -56,10 +56,19 @@ exports.apply = function(app) {
 		__dirname+'/public/js/bootstrap/bootstrap-tab.js',
 		__dirname+'/public/js/bootstrap/bootstrap-tooltip.js',
 		__dirname+'/public/js/bootstrap/bootstrap-transition.js',
-		__dirname+'/public/js/bootstrap/bootstrap-typeahead.js'
+		__dirname+'/public/js/bootstrap/bootstrap-typeahead.js',
 	], {
-		minifyJS: true,
-		compress: true, 
+		minifyJS: false,
+		compress: false, 
+	}));
+	console.log(__dirname+'/public/js/utils.js')
+	app.get('/js/index.js', scrunch.combine([
+		__dirname+'/public/js/utils.js',
+		__dirname+'/public/js/tft.dnd.js',
+		__dirname+'/public/js/tft.dnd.data.js',
+	], {
+		minifyJS: false,
+		compress: false, 
 	}));
 };
 

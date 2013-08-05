@@ -3,8 +3,8 @@ var express = require('express')
 	, passport = require('passport')
 	, GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 	, lessCSS = require('less-middleware')
-	, settings = require('./app/settings.js')
-	, routes = require('./app/routes.js');
+	, settings = require('./settings.js')
+	, routes = require('./routes.js');
 
 //configure passport
 passport.serializeUser(function(user, done) {

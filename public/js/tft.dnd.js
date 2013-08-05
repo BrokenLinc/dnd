@@ -1,17 +1,3 @@
-function namespace(namespaceString) {
-    var parts = namespaceString.split('.'),
-        parent = window,
-        currentPart = '';    
-        
-    for(var i = 0, length = parts.length; i < length; i++) {
-        currentPart = parts[i];
-        parent[currentPart] = parent[currentPart] || {};
-        parent = parent[currentPart];
-    }
-    
-    return parent;
-}
-
 (function($, ko){
 
 	(function(ns) {
@@ -40,6 +26,36 @@ function namespace(namespaceString) {
 				}
 			});
 
+			self.stats = ko.computed(function(){
+				var totals = {};
+				ko.utils.arrayForEach(self.skills(), function(skill){
+					var p = skill.points();
+					if(p>0) ko.utils.arrayForEach(skill.stats, function(stat){
+						var total = totals[stat.title] || 0;
+						total += stat.value * p;
+						totals[stat.title] = total;
+					});
+				});
+				var result = [];
+				for(var statName in totals) {
+					result.push({
+						title:statName
+						, value:totals[statName]
+					});
+				}
+				return result;
+			});
+			self.newbMode = function(){
+				ko.utils.arrayForEach(self.skills(), function(skill){
+					skill.points(0);
+				});
+			};
+			self.godMode = function(){
+				ko.utils.arrayForEach(self.skills(), function(skill){
+					skill.points(skill.maxPoints);
+				});
+			};
+
 			return self;
 		}
 		var Skill = ns.Skill = function(_e, allSkills){
@@ -56,6 +72,7 @@ function namespace(namespaceString) {
 			});
 			self.dependencies = ko.observableArray([]);
 			self.dependents = ko.observableArray([]);
+			self.stats = e.stats || [];
 
 			self.hasDependencies = ko.computed(function(){
 				return self.dependencies().length > 0;
@@ -87,7 +104,14 @@ function namespace(namespaceString) {
 				return !self.dependentsUsed() && self.hasPoints();
 			});
 			self.helpMessage = ko.computed(function(){
-				return 'Here is some help text.';
+				if(!self.dependenciesFulfilled()){
+					var s = [];
+					ko.utils.arrayForEach(self.dependencies(), function(item) {
+						if(!item.hasMaxPoints()) s.push(item.title);
+					});
+					return 'Learn ' + s.join(', ') + ' to unlock.'
+				}
+				return '';
 			});
 			self.addPoint = function() {
 				if(self.canAddPoints()) self.points(self.points() + 1);
@@ -111,42 +135,7 @@ function namespace(namespaceString) {
 
 
 	$(function(){
-		var vm = new tft.dnd.TalentTree({
-			skills: [
-				{
-					id: 1
-					, title: 'Thingie 1'
-					, links:[
-						{
-							label: 'Learn more'
-							, url: 'http://www.google.com/i'
-						}
-					]
-				},
-				{
-					id: 2
-					, title: 'Thingie 2'
-					, dependsOn: [1]
-					, maxPoints: 3
-				},
-				{
-					id: 3
-					, title: 'Thingie 3'
-					, dependsOn: [2]
-				},
-				{
-					id: 4
-					, title: 'Thingie 4'
-					, dependsOn: [2]
-					, maxPoints: 5
-				},
-				{
-					id: 5
-					, title: 'Thingie 5'
-					, dependsOn: [3, 4]
-				}
-			]
-		});
+		var vm = new tft.dnd.TalentTree(tft.dnd.data);
 		ko.applyBindings(vm);
 	});
 

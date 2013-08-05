@@ -1,28 +1,51 @@
 extends layout
 
 block append scripts
-	script(src="js/talent-tree.js")
+	script(src="js/index.js")
 
-block content
+block page
+	br
+	button(data-bind="click:newbMode") Newb Mode
+	button(data-bind="click:godMode") God Mode
+	br
+	.avatar
+		ul.stats
+			//ko foreach: stats
+			li
+				span.title(data-bind="text:title")
+				| : 
+				span.value(data-bind="text:value")
+			///ko
 	.talent-tree
 		//ko foreach: skills
-		.skill(data-bind="css:{'can-add-points': canAddPoints, 'has-points': hasPoints, 'has-max-points':hasMaxPoints}, attr:{'data-skill-id': id}, click:addPoint")
+		.skill(data-bind="css:{'can-add-points': canAddPoints, 'has-points': hasPoints, 'has-max-points':hasMaxPoints}, attr:{'data-skill-id': id}")
 			.icon-container
 				.icon
 			.frame
 				.tool-tip
-					strong.skill-name(data-bind="text:title")
+					h4.skill-name(data-bind="text:title")
 					.skill-description(data-bind="text:description")
 					ul.skill-links
 						//ko foreach: links
 						li
-							a(data-bind="attr:{href:url}, text:label")
+							a(data-bind="attr:{href:url}, text:label", target="_blank")
+						///ko
+					hr
+					ul.stats
+						//ko foreach: stats
+						li
+							span.value
+								| +
+								span(data-bind="text:value")
+							|  
+							span.title(data-bind="text:title")
 						///ko
 					.help-message(data-bind="text:helpMessage")
 				.skill-points
 					span.points(data-bind="text:points")
 					| /
 					span.max-points(data-bind="text:maxPoints")
+				.hit-area(data-bind="click:addPoint, rightClick:removePoint")
 			//ko if: hasDependencies
 			.skill-dependency(data-bind="css:{active:dependenciesFulfilled}")
 			///ko
